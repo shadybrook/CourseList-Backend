@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=mysite
+      - POSTGRES_USER=mysite
+      - POSTGRES_PASSWORD=mysite
+  web:
+    build: ./mysite
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./mysite:/app
+    ports:
+      - 3008:3008
+    depends_on:
+      - db
+volumes:
+  postgres-data:
